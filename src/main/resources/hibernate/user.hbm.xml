@@ -1,0 +1,18 @@
+ <!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+	
+	<hibernate-mapping>
+		<class name="com.mbz.cms.model.User" table="user">
+			<id name="username" column="username">
+				<generator class="assigned"></generator>
+			</id>
+			<property name="password" column="password"/>
+			<set name="posts" table="post" lazy="false" fetch="select" inverse="true">
+				<key>
+					<column name="username"></column>
+				</key>
+				<one-to-many class="com.mbz.cms.model.Post"/>
+			</set>
+		</class>
+	</hibernate-mapping>

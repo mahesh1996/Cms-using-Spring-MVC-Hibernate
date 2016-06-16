@@ -1,0 +1,30 @@
+ <!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+	
+	<hibernate-mapping>
+		<class name="com.mbz.cms.model.Post" table="post">
+			<id name="id" column="id">
+				<generator class="increment"></generator>
+			</id>
+			<property name="title" column="title"/>
+			<property name="description" column="description"/>
+			<many-to-one name="user" class="com.mbz.cms.model.User" fetch="select">
+				<column name="username" not-null="true"></column>
+			</many-to-one>
+			<set name="categories" table="post_category" lazy="false" fetch="select">
+				<key>
+					<column name="id" not-null="true"></column>
+				</key>
+				<many-to-many entity-name="com.mbz.cms.model.Category">
+					<column name="categoryId"></column>
+				</many-to-many>
+			</set>
+			<set name="comments" table="comment" lazy="false" fetch="select" cascade="all-delete-orphan" inverse="true">
+				<key>
+					<column name="id"></column>
+				</key>
+				<one-to-many class="com.mbz.cms.model.Comment"/>
+			</set>
+		</class>
+	</hibernate-mapping>
